@@ -37,6 +37,31 @@
     font-size: 16px;
     line-height: 1.62;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* ---------- Decorative background: soft blobs + dot grid ---------- */
+  .bg-layer{
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 8% 6%, rgba(62,106,92,0.10) 0%, rgba(62,106,92,0) 42%),
+      radial-gradient(circle at 92% 18%, rgba(166,112,44,0.10) 0%, rgba(166,112,44,0) 40%),
+      radial-gradient(circle at 85% 78%, rgba(167,84,104,0.09) 0%, rgba(167,84,104,0) 45%),
+      radial-gradient(circle at 12% 88%, rgba(63,108,140,0.09) 0%, rgba(63,108,140,0) 42%),
+      var(--bg);
+  }
+  .bg-layer::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(43,76,66,0.10) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 40%, transparent 90%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 20%, #000 40%, transparent 90%);
+    opacity: 0.5;
   }
 
   .wrap{ max-width: 900px; margin: 0 auto; padding: 0 28px; }
@@ -99,6 +124,12 @@
   @media (max-width: 620px){ .stat-grid{ grid-template-columns: repeat(2,1fr); } }
 
   section{ padding: 46px 0; }
+  section.panel{
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(2px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
   .section-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:22px; }
   .section-head .icon{ font-size: 18px; }
   .section-head h2{ font-size: 21px; font-weight: 700; letter-spacing:-0.01em; margin:0; }
@@ -148,10 +179,96 @@
   .a-item{ display:flex; gap:11px; margin-bottom:7px; font-size:14px; align-items:baseline; }
   .a-item .mark{ font-family:"IBM Plex Mono", monospace; color:var(--ochre); font-weight:600; flex-shrink:0; }
 
-  .fact-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-  .fact-card{ background: var(--berry-soft); border-radius: var(--radius); padding: 18px 18px; font-size: 13.5px; color: var(--berry); border: 1px dashed var(--berry); }
+  /* Portfolio sample mockups */
+  .sample-block{ margin-bottom: 34px; }
+  .sample-block:last-child{ margin-bottom: 0; }
+  .sample-caption{ font-size: 13.5px; color: var(--ink-soft); margin: 0 0 14px; max-width: 620px; }
+  .compare-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 700px){ .compare-grid{ grid-template-columns: 1fr; } }
+  .compare-pane{
+    background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius);
+    overflow: hidden; box-shadow: 0 4px 14px rgba(35,38,42,0.05);
+  }
+  .compare-chrome{
+    display:flex; align-items:center; gap:6px; padding: 9px 12px;
+    background: #EDEAE0; border-bottom: 1px solid var(--line);
+  }
+  .compare-chrome .dot-b{ width:8px; height:8px; border-radius:50%; background:#D9A9A9; }
+  .compare-chrome .dot-y{ width:8px; height:8px; border-radius:50%; background:#E3C98B; }
+  .compare-chrome .dot-g{ width:8px; height:8px; border-radius:50%; background:#9FC2A8; }
+  .compare-tag{
+    font-family:"IBM Plex Mono", monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em;
+    padding: 2px 8px; border-radius: 10px; margin-left: auto;
+  }
+  .compare-tag.before{ background:#F3DEE3; color:var(--berry); }
+  .compare-tag.after{ background:var(--sage-soft); color:var(--sage-deep); }
+  .compare-body{ padding: 14px; font-size: 12px; }
+
+  /* messy spreadsheet look */
+  .mock-sheet{ width:100%; border-collapse: collapse; }
+  .mock-sheet.messy td, .mock-sheet.messy th{ border: 1px solid #CFCABB; padding: 5px 7px; font-size: 11.5px; }
+  .mock-sheet.messy th.h1{ background:#E9E4D2; font-weight:400; text-align:left; }
+  .mock-sheet.messy th.h2{ background:#DDE7E0; font-weight:700; font-size:10.5px; }
+  .mock-sheet.messy th.h3{ background:#F3DEE3; font-style: italic; }
+  .mock-sheet.messy th.h4{ background:#EDEAE0; text-transform:uppercase; font-size:10px; }
+  .mock-sheet.messy td.err{ background:#F7D9D9; color:#9C3B3B; }
+  .mock-sheet.messy td.gap{ color: transparent; }
+
+  .mock-sheet.clean{ font-family: "IBM Plex Mono", monospace; }
+  .mock-sheet.clean th{ background: var(--sage-deep); color:#F4F1E8; padding:6px 8px; font-size:10.5px; text-align:left; font-weight:500; }
+  .mock-sheet.clean td{ padding:6px 8px; font-size:11px; border-bottom: 1px solid var(--line); }
+  .mock-sheet.clean tr:nth-child(even) td{ background: var(--bg-panel); }
+  .mock-sheet.clean td.ok{ color: var(--sage-deep); font-weight:600; }
+
+  /* messy vs clean page layout */
+  .mock-page.messy{ font-size:11px; line-height:1.3; }
+  .mock-page.messy .title{ font-size:14px; font-weight:900; text-decoration: underline; margin-bottom:2px; }
+  .mock-page.messy .row{ display:flex; gap:4px; margin-bottom:3px; flex-wrap:wrap; align-items:baseline; }
+  .mock-page.messy .cell{ background:#EFE9D8; padding:2px 5px; border:1px solid #D8D1BC; }
+  .mock-page.messy .cell.hot{ background:#F7D9D9; font-weight:700; }
+  .mock-page.messy p{ margin: 6px 0 0; font-size:10.5px; color:#555; }
+
+  .mock-page.clean .ptitle{ font-family:"Public Sans"; font-weight:800; font-size:14px; margin-bottom:10px; color: var(--sage-deep); }
+  .mock-page.clean .prow{
+    display:flex; justify-content:space-between; align-items:center; padding:8px 10px;
+    border: 1px solid var(--line); border-radius:8px; margin-bottom:8px; background: var(--card-bg);
+  }
+  .mock-page.clean .prow .name{ font-size:11.5px; font-weight:600; }
+  .mock-page.clean .prow .rate{ font-family:"IBM Plex Mono", monospace; font-size:11px; color: var(--sage-deep); font-weight:600; }
+  .mock-page.clean .badge{
+    font-family:"IBM Plex Mono", monospace; font-size:9.5px; background: var(--ochre); color:#FFF9EE;
+    padding: 2px 7px; border-radius: 10px; margin-left: 8px;
+  }
+
+  /* spreadsheet app chrome */
+  .sheet-toolbar{
+    display:flex; align-items:center; gap:10px; padding: 7px 10px;
+    background:#F4F2E9; border-bottom:1px solid var(--line); font-family:"Public Sans";
+  }
+  .sheet-toolbar .fname{ font-size:11px; font-weight:600; color:var(--ink); }
+  .sheet-toolbar .ficons{ display:flex; gap:6px; margin-left:auto; }
+  .sheet-toolbar .ficons span{ width:14px; height:14px; border-radius:3px; background:#DCD7C6; display:inline-block; }
+  .formula-bar{
+    display:flex; align-items:center; gap:8px; padding:5px 10px; background:#FBFAF5;
+    border-bottom:1px solid var(--line); font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-soft);
+  }
+  .formula-bar .fx{ font-style:italic; color: var(--sage); font-weight:700; }
+  .sheet-grid-wrap{ overflow-x:auto; }
+  .mock-sheet .colhead{ background:#EDEAE0; color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; font-size:9.5px; text-align:center; padding:3px; border:1px solid var(--line); }
+  .mock-sheet .rownum{ background:#EDEAE0; color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; font-size:9.5px; text-align:center; padding:3px 6px; border:1px solid var(--line); }
+
+  .pivot-wrap{ margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); }
+  .pivot-label{ font-family:"IBM Plex Mono",monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--sage-deep); margin-bottom:6px; }
+  .pivot-table{ width:100%; border-collapse:collapse; font-family:"IBM Plex Mono",monospace; font-size:10.5px; }
+  .pivot-table th{ background:var(--sage-deep); color:#F4F1E8; padding:5px 8px; text-align:left; font-weight:500; }
+  .pivot-table td{ padding:5px 8px; border-bottom:1px solid var(--line); }
+  .pivot-table td.num{ text-align:right; color:var(--ochre); font-weight:600; }
+  .pivot-table tr.total td{ font-weight:700; border-top:2px solid var(--sage-deep); color:var(--sage-deep); }
+
+  .fact-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  .fact-card{ background: var(--berry-soft); border-radius: var(--radius); padding: 18px 18px; font-size: 13.5px; color: var(--berry); border: 1px solid var(--berry); }
   .fact-card .icon{ font-size: 18px; display:block; margin-bottom: 8px; }
-  @media (max-width: 700px){ .fact-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 820px){ .fact-grid{ grid-template-columns: 1fr 1fr; } }
   @media (max-width: 460px){ .fact-grid{ grid-template-columns: 1fr; } }
 
   .testimonial{
@@ -179,6 +296,7 @@
 </style>
 </head>
 <body>
+<div class="bg-layer"></div>
 
 <header class="hero">
   <div class="wrap">
@@ -201,8 +319,11 @@
         </div>
         <div class="cta-btns">
           <a class="btn btn-primary" href="mailto:ev.robelynnedelapaz@gmail.com">✉️ Let's talk</a>
-          <a class="btn btn-secondary" href="#" id="resume-link">⬇️ Download résumé (add link)</a>
+          <a class="btn btn-secondary" href="resume.pdf" id="resume-link">⬇️ Download résumé</a>
         </div>
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:12px; color: var(--ink-soft); margin: 14px 0 0;">
+          🕒 Daytime PH hours (GMT+8) · Up to 40 hrs/week · Full-time, part-time & contract welcome
+        </p>
       </div>
     </div>
   </div>
@@ -245,7 +366,7 @@
   </div>
 </section>
 
-<section>
+<section class="panel">
   <div class="wrap">
     <div class="section-head reveal"><span class="icon">🛠️</span><h2>Tools & Platforms</h2></div>
     <div class="tool-grid reveal">
@@ -283,7 +404,7 @@
   </div>
 </section>
 
-<section>
+<section class="panel">
   <div class="wrap">
     <div class="section-head reveal"><span class="icon">💼</span><h2>Experience</h2></div>
 
@@ -327,21 +448,117 @@
 
 <section>
   <div class="wrap">
-    <div class="section-head reveal"><span class="icon">🎉</span><h2>A Few Fun Facts</h2></div>
-    <div class="fact-grid reveal">
-      <div class="fact-card"><span class="icon">✏️</span>Add a fun fact — hobby, favorite tool, or quirky habit</div>
-      <div class="fact-card"><span class="icon">✏️</span>Add a fun fact — something people are surprised to learn</div>
-      <div class="fact-card"><span class="icon">✏️</span>Add a fun fact — what keeps you organized outside of work</div>
+    <div class="section-head reveal"><span class="icon">🧹</span><h2>Portfolio Samples</h2></div>
+    <p class="sample-caption reveal">Illustrative mock-ups showing the kind of cleanup and formatting work I do — not real client pages.</p>
+
+    <div class="sample-block reveal">
+      <p class="sample-caption" style="margin-bottom:10px; font-weight:600; color:var(--ink);">Spreadsheet cleanup — with pivot summary</p>
+      <div class="compare-grid">
+        <div class="compare-pane">
+          <div class="compare-chrome">
+            <span class="dot-b"></span><span class="dot-y"></span><span class="dot-g"></span>
+            <span class="compare-tag before">Before</span>
+          </div>
+          <div class="sheet-toolbar"><span class="fname">Provider Rates (untitled copy 3).xlsx</span><div class="ficons"><span></span><span></span><span></span></div></div>
+          <div class="formula-bar"><span class="fx">fx</span><span>B4</span></div>
+          <div class="compare-body sheet-grid-wrap">
+            <table class="mock-sheet messy">
+              <tr><td class="rownum"></td><td class="colhead">A</td><td class="colhead">B</td><td class="colhead">C</td><td class="colhead">D</td></tr>
+              <tr><td class="rownum">1</td><th class="h1">provider</th><th class="h2">MONTHLY FEE</th><th class="h3">rate</th><th class="h4">NOTES</th></tr>
+              <tr><td class="rownum">2</td><td>acme bank</td><td class="err">missing</td><td>3.2%</td><td class="gap">—</td></tr>
+              <tr><td class="rownum">3</td><td>Bank Co</td><td>$5</td><td class="err">4,1%</td><td>check w/ team!!</td></tr>
+              <tr><td class="rownum">4</td><td>QuickFin</td><td>$0</td><td>2.9%</td><td>OLD RATE?</td></tr>
+              <tr><td class="rownum">5</td><td>trustco</td><td>$12</td><td class="err">—</td><td>dup row below</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="compare-pane">
+          <div class="compare-chrome">
+            <span class="dot-b"></span><span class="dot-y"></span><span class="dot-g"></span>
+            <span class="compare-tag after">After</span>
+          </div>
+          <div class="sheet-toolbar"><span class="fname">Provider Rates — Master.xlsx</span><div class="ficons"><span></span><span></span><span></span></div></div>
+          <div class="formula-bar"><span class="fx">fx</span><span>=AVERAGE(C2:C5)</span></div>
+          <div class="compare-body sheet-grid-wrap">
+            <table class="mock-sheet clean">
+              <tr><th>Provider</th><th>Monthly Fee</th><th>Rate</th><th>Status</th></tr>
+              <tr><td>Acme Bank</td><td>$4.00</td><td>3.2%</td><td class="ok">✓ Verified</td></tr>
+              <tr><td>Bank Co</td><td>$5.00</td><td>4.1%</td><td class="ok">✓ Verified</td></tr>
+              <tr><td>QuickFin</td><td>$0.00</td><td>2.9%</td><td class="ok">✓ Verified</td></tr>
+              <tr><td>TrustCo</td><td>$12.00</td><td>3.6%</td><td class="ok">✓ Verified</td></tr>
+            </table>
+            <div class="pivot-wrap">
+              <div class="pivot-label">Pivot — Summary by Fee Tier</div>
+              <table class="pivot-table">
+                <tr><th>Fee Tier</th><th>Providers</th><th>Avg. Rate</th></tr>
+                <tr><td>$0 – $5</td><td>3</td><td class="num">3.4%</td></tr>
+                <tr><td>$5 – $15</td><td>1</td><td class="num">3.6%</td></tr>
+                <tr class="total"><td>All providers</td><td>4</td><td class="num">3.45%</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sample-block reveal">
+      <p class="sample-caption" style="margin-bottom:10px; font-weight:600; color:var(--ink);">Comparison-page formatting</p>
+      <div class="compare-grid">
+        <div class="compare-pane">
+          <div class="compare-chrome">
+            <span class="dot-b"></span><span class="dot-y"></span><span class="dot-g"></span>
+            <span class="compare-tag before">Before</span>
+          </div>
+          <div class="compare-body mock-page messy">
+            <div class="title">best savings accounts 2026</div>
+            <div class="row"><span class="cell">Provider A</span><span class="cell hot">3.2%!!</span><span class="cell">$4 fee</span></div>
+            <div class="row"><span class="cell">Provider B</span><span class="cell">4.1%</span><span class="cell hot">fee TBD</span></div>
+            <div class="row"><span class="cell">Provider C 0 fee</span><span class="cell">2.9%</span></div>
+            <p>notes: update before publish, check compliance!! table broken on mobile</p>
+          </div>
+        </div>
+        <div class="compare-pane">
+          <div class="compare-chrome">
+            <span class="dot-b"></span><span class="dot-y"></span><span class="dot-g"></span>
+            <span class="compare-tag after">After</span>
+          </div>
+          <div class="compare-body mock-page clean">
+            <div class="ptitle">Best Savings Accounts, 2026</div>
+            <div class="prow"><span class="name">Provider A <span class="badge">Top pick</span></span><span class="rate">3.2% p.a.</span></div>
+            <div class="prow"><span class="name">Provider B</span><span class="rate">4.1% p.a.</span></div>
+            <div class="prow"><span class="name">Provider C</span><span class="rate">2.9% p.a.</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
+    <div class="section-head reveal"><span class="icon">🎉</span><h2>A Few Fun Facts</h2></div>
+    <div class="fact-grid reveal">
+      <div class="fact-card"><span class="icon">👨‍👩‍👧‍👦</span>Off the clock, I'm all about family time — amusement parks, malling, and good food together</div>
+      <div class="fact-card"><span class="icon">✈️</span>Always up for travelling somewhere new</div>
+      <div class="fact-card"><span class="icon">🍳</span>I love cooking when I get the chance</div>
+      <div class="fact-card"><span class="icon">🎮</span>Dota 2 player and mobile gamer in my downtime</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="wrap">
     <div class="section-head reveal"><span class="icon">💬</span><h2>What Colleagues Say</h2></div>
-    <div class="testimonial reveal">
-      "Add a short quote from a manager or teammate here — even one sentence about reliability or impact goes a long way."
-      <cite>— Name, Role at Company (edit or remove this placeholder)</cite>
+    <p class="sample-caption reveal" style="margin-bottom:16px;">Paste 1–2 short lines from your LinkedIn recommendations here — I've left two slots below, sized to fit.</p>
+    <div class="compare-grid reveal">
+      <div class="testimonial">
+        "Paste a shortened recommendation here — one or two sentences works best."
+        <cite>— Name, Role at Company</cite>
+      </div>
+      <div class="testimonial">
+        "Paste a second recommendation here, or delete this block if you only have one."
+        <cite>— Name, Role at Company</cite>
+      </div>
     </div>
   </div>
 </section>
